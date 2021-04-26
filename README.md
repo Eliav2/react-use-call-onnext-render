@@ -5,19 +5,18 @@
 ## installation
 
 with npm `npm react-use-call-onnext-render`.  
-or `yarn add react-use-call-onnext-render`
+or `yarn add react-use-call-onnext-render`.
 
 ## Examples
 
 #### Demos
 
 code sandbox:
-[//]: # (todo: add code sandbox)
 
 ### examples:
 
 **schedule a callback**:
-this will behave differenty from non force call.
+this will behave differently from non force call.
 
 ```jsx
 ```
