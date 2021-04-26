@@ -66,17 +66,16 @@ code sandbox:
 
 ### API
 
-```ts
+[comment]: <> (//@formatter:off)
+```typescript
 // type
-export const useCallOnNextRender: (deps?: any) => (func: any, renderDelay?: number, forceRender?: boolean) => void;
+export type useCallOnNextRenderType = (deps?: any) => (func: any, renderDelay?: number, forceRender?: boolean) => void;
 
 // usage example(inside a component!):
-const callOnNextRender = useCallOnNextRender(deps ? : Array)
-callOnNextRender(callback
-:
-Function, renderDelay ? : number = 1, forceRender ? : boolean = false
-)
+const callOnNextRender = useCallOnNextRender(deps ? : Array);
+callOnNextRender(callback:Function, renderDelay ? : number = 1, forceRender ? : boolean = false);
 ```
+[comment]: <> (//@formatter:on)
 
 note that `renderDelay` is relative to the current render and not an absolute value!
 
