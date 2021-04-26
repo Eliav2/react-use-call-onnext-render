@@ -149,4 +149,4 @@ for (let i = 0; i < 10; i++) {
 
 ## Versions
 
-See [CHANGELOG.md](https://github.com/Eliav2/react-xarrows/blob/master/CHANGELOG.md) in this repo.
+See [CHANGELOG.md](CHANGELOG.md) in this repo.
