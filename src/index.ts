@@ -14,7 +14,7 @@ export const useCallOnNextIteration = () => {
             callIn.current[_callCount.current].forEach((func) => func());
             delete callIn[_callCount.current];
         }
-        _callCount.current += 1;
+        _callCount.current += 1 ;
     });
     return callFunc.current;
 };
@@ -26,28 +26,28 @@ export const useCallOnNextIteration = () => {
 // }
 
 
-type renderQueue = { [renderCount: number]: { callback: Function; forceRender: boolean }[] };
+type renderQueue = { [renderDelay: number]: { callback: Function; forceRender: boolean }[] };
 
-// will run 'func' on the renderCount nth render of the renderFunc.current function
+// will run 'func' on the renderDelay nth render of the renderFunc.current function
 export const useCallOnNextRender = (deps?) => {
     //for force update logic
     const [, forceUpdate] = useReducer((x) => x + 1, 0);
     //for next renders logic
-    const _renderCount = useRef(0);
+    const _renderDelay = useRef(0);
     const renderIn = useRef<renderQueue>({});
-    const renderFunc = useRef((func, renderCount = 1, forceRender = false) => {
-        const next = _renderCount.current + renderCount;
+    const renderFunc = useRef((func, renderDelay = 1, forceRender = false) => {
+        const next = _renderDelay.current + renderDelay;
         if (!(next in renderIn.current)) renderIn.current[next] = [];
         // schedule the func to be rendered in the 'next' nth render
         renderIn.current[next].unshift({callback: func, forceRender});
     });
-    useEffect(() => {
-        // force update if requested
-        for (const [renderCount, scheduledCalls] of Object.entries(renderIn.current)) {
-            // if one of the scheduled calls are forced then force re-render to the wanted renderCount
+
+    const renderIfForceIsScheduled = () => {
+        for (const [renderDelay, scheduledCalls] of Object.entries(renderIn.current)) {
+            // if one of the scheduled calls are forced then force re-render to the wanted renderDelay
             let breakFlag = false;
             for (const call of scheduledCalls) {
-                if (call.forceRender && (Number(renderCount) > _renderCount.current ?? true)) {
+                if (call.forceRender && (Number(renderDelay) > _renderDelay.current ?? true)) {
                     forceUpdate();
                     breakFlag = true;
                     break;
@@ -55,15 +55,31 @@ export const useCallOnNextRender = (deps?) => {
             }
             if (breakFlag) break;
         }
+    }
+
+    useEffect(() => {
+        //update render count
+        _renderDelay.current += 1;
+
+        // force update if requested
+        renderIfForceIsScheduled()
         // call any functions scheduled for this render
-        if (_renderCount.current in renderIn.current) {
-            const currentCalls = renderIn.current[_renderCount.current];
+        if (_renderDelay.current in renderIn.current) {
+            const currentCalls = renderIn.current[_renderDelay.current];
             currentCalls.forEach((call) => call.callback());
-            delete renderIn[_renderCount.current];
+            delete renderIn[_renderDelay.current];
         }
 
-        //update render count
-        _renderCount.current += 1;
     }, deps);
+
+    useEffect(() => {
+        // this is required for the case you call this hook on mount
+        // and your component renders only once after mount.
+        // this is necessary to catch forced scheduled renders on mount.
+        forceUpdate();
+    }, [])
+
     return renderFunc.current;
 };
+
+export default useCallOnNextRender;
