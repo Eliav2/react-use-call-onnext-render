@@ -1,4 +1,4 @@
-import React, {useEffect, useReducer, useRef} from 'react';
+import  {useEffect, useReducer, useRef} from 'react';
 
 // will run 'func' on the callCount nth call of the callFunc.current function
 export const useCallOnNextIteration = () => {
@@ -14,7 +14,7 @@ export const useCallOnNextIteration = () => {
             callIn.current[_callCount.current].forEach((func) => func());
             delete callIn[_callCount.current];
         }
-        _callCount.current += 1 ;
+        _callCount.current += 1;
     });
     return callFunc.current;
 };
@@ -33,10 +33,10 @@ export const useCallOnNextRender = (deps?) => {
     //for force update logic
     const [, forceUpdate] = useReducer((x) => x + 1, 0);
     //for next renders logic
-    const _renderDelay = useRef(0);
+    const renderCount = useRef(0);
     const renderIn = useRef<renderQueue>({});
     const renderFunc = useRef((func, renderDelay = 1, forceRender = false) => {
-        const next = _renderDelay.current + renderDelay;
+        const next = renderCount.current + renderDelay;
         if (!(next in renderIn.current)) renderIn.current[next] = [];
         // schedule the func to be rendered in the 'next' nth render
         renderIn.current[next].unshift({callback: func, forceRender});
@@ -47,7 +47,7 @@ export const useCallOnNextRender = (deps?) => {
             // if one of the scheduled calls are forced then force re-render to the wanted renderDelay
             let breakFlag = false;
             for (const call of scheduledCalls) {
-                if (call.forceRender && (Number(renderDelay) > _renderDelay.current ?? true)) {
+                if (call.forceRender && (Number(renderDelay) > renderCount.current ?? true)) {
                     forceUpdate();
                     breakFlag = true;
                     break;
@@ -59,15 +59,15 @@ export const useCallOnNextRender = (deps?) => {
 
     useEffect(() => {
         //update render count
-        _renderDelay.current += 1;
+        renderCount.current += 1;
 
         // force update if requested
         renderIfForceIsScheduled()
         // call any functions scheduled for this render
-        if (_renderDelay.current in renderIn.current) {
-            const currentCalls = renderIn.current[_renderDelay.current];
+        if (renderCount.current in renderIn.current) {
+            const currentCalls = renderIn.current[renderCount.current];
             currentCalls.forEach((call) => call.callback());
-            delete renderIn[_renderDelay.current];
+            delete renderIn[renderCount.current];
         }
 
     }, deps);

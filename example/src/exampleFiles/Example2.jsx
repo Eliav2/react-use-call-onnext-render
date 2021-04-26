@@ -44,7 +44,7 @@ const DraggableBox = () => {
 }
 
 
-const SimpleExample = () => {
+const Example = () => {
 
     return (
         <React.Fragment>
@@ -61,4 +61,4 @@ const SimpleExample = () => {
     );
 };
 
-export default SimpleExample;
+export default Example;

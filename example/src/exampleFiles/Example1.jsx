@@ -1,5 +1,5 @@
-import React, {useEffect, useReducer} from "react";
-import {useCallOnNextRender} from "react-use-call-onnext-render"
+import React, {useEffect, useReducer, useRef} from "react";
+import useCallOnNextRender from "react-use-call-onnext-render"
 import Draggable from "react-draggable";
 
 const canvasStyle = {
@@ -22,16 +22,18 @@ const boxStyle = {
 };
 
 const DraggableBox = () => {
+    const renderCount = useRef(0)
     const callOnNextRender = useCallOnNextRender()
     useEffect(() => {
         console.log("component did mount")
         callOnNextRender(() => {
-            console.log("25 renders after mount")
+            console.log("this is the 25th render after mount")
         }, 25)
     }, [])
 
     useEffect(() => {
-        console.log("component has rendered")
+        console.log(`the ${renderCount.current} render has ended`)
+        renderCount.current += 1
     })
 
 
@@ -44,7 +46,7 @@ const DraggableBox = () => {
 }
 
 
-const SimpleExample = () => {
+const Example = () => {
     return (
         <React.Fragment>
             <h3>
@@ -60,4 +62,4 @@ const SimpleExample = () => {
     );
 };
 
-export default SimpleExample;
+export default Example;

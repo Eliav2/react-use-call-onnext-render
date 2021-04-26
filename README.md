@@ -15,8 +15,8 @@ available only on next render(s).
 
 this hook is very useful when accessing DOM elements,especially on mount.
 
-you can also pass dependency list and then the callback function will be called on the n'th change of the values in the
-dependency list and not on the n'th render of the component
+you can also pass dependency array and then the callback function will be called on the n'th change of the values in the
+dependency array and not on the n'th render of the component
 
 ## Examples
 
@@ -58,13 +58,44 @@ const YourComponent = () => {
 
 this will force 5 rerender and only then will execute the callback function!
 
+**dependency array**:
+
+let's say we want to get dimensions of a removable DOM element,lets say `div` that is controlled by `showBox` state
+variable. for that we can use `getBoundingClientRect()`. however, we want to call this function only after the element 
+mounted into the dom, so will schedule this call one render after the variable responsible for showing this element 
+in the dom has changed,and this variable is `showBox`, so he will be dependency of `useCallOnNextRender`:
+
+```js
+const YourComponent = () => {
+    const [showBox, setShowBox] = useState(false)
+    const divRef = useRef()
+    const callOnNextShowBoxChange = useCallOnNextRender([showBox])
+    return (
+        <>
+            <div style={canvasStyle} id="canvas">
+                <button style={boxStyle} onClick={() => {
+                    setShowBox(!showBox)
+                    // console.log(divRef.current.getBoundingClientRect()) - wrong value!
+                    callOnNextShowBoxChange(() => console.log(divRef.current.getBoundingClientRect())) //right value
+                }}>toggle show box
+                </button>
+                <div style={{border: "black solid 1px"}} ref={divRef}>
+                    {showBox ? <div style={boxStyle}>box2</div> : null}
+                </div>
+            </div>
+        </>
+    );
+};
+```
+see the 3'th example in the code sandbox.
+
 Although these examples are simple, you can go smart with this hook.
 
 ### Demos
 
 code sandbox: <https://codesandbox.io/s/github/Eliav2/react-use-call-onnext-render/tree/main/example>
 
-### API
+## API
 
 [comment]: <> (//@formatter:off)
 ```typescript
@@ -78,6 +109,13 @@ callOnNextRender(callback:Function, renderDelay ? : number = 1, forceRender ? : 
 [comment]: <> (//@formatter:on)
 
 note that `renderDelay` is relative to the current render and not an absolute value!
+
+## Notes
+
+- calling `callOnNextRender` with `renderDelay` of 0 is not supported. this is just equivalent running any function
+  immediately in the scope you called `callOnNextRender`.
+- default value for `renderDelay` is 1 which means the callback function will be called in the next render.
+- using this hook will render your component twice in mount(if not already rendered twice)
 
 ## useCallOnNextIteration
 

@@ -28,7 +28,7 @@
   },
   "bugs": "https://github.com/Eliav2/react-use-call-onnext-render/issues",
   "dependencies": {
-    "react": ">=16.0.0"
+    "react": ">=16.8.0"
   },
   "devDependencies": {
     "@types/react": "^17.0.4",
@@ -36,7 +36,7 @@
   },
   "scripts": {
     "build": "tsc -p .",
-    "start": "yarn --cwd .\\examples\\ start"
+    "start": "yarn --cwd .\\example\\ start"
   },
   "browserslist": [
     ">0.2%",
