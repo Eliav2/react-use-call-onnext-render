@@ -1,6 +1,6 @@
 {
   "name": "react-use-call-onnext-render",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Eliav Louski",
   "description": "custom hook for schedule a callback function on later render, optionally forced!",
   "keywords": [
