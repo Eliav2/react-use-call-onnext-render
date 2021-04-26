@@ -24,20 +24,7 @@ dependency list and not on the n'th render of the component
 
 schedule a callback that will fire when the 5th render occurs:
 
-```js
-const YourComponent = () => {
-    const callOnNextRender = useCallOnNextRender()
-    useEffect(() => {
-        console.log("your component did a mount")
-        callOnNextRender(() => {
-            console.log("5 renders after mount")
-        }, 5)
-    }, [])
-    return <>...</>
-}
-```
-
-note that will not force 5 renders it mount, but will just. fire the callback when the 5th render occurs.
+note that this will not force at least 5 renders, it will just fire the callback when the 5th render occurs.
 
 **schedule a callback and force re-renders**:
 
@@ -58,7 +45,7 @@ const YourComponent = () => {
 
 this will force 5 rerender and only then will execute the callback function!
 
-Although these examples are simple but very smart things can be done with the hook.
+Although these examples are simple, you can go smart with this hook.
 
 ### Demos
 

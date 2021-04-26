@@ -52,7 +52,7 @@ const SimpleExample = () => {
                 <u>Simple Example:</u>
             </h3>
             <p>
-                click on the box. on the 5th time it will become red.
+                this box will rerender 10 times after mounting.
             </p>
             <div style={canvasStyle} id="canvas">
                 <DraggableBox/>
