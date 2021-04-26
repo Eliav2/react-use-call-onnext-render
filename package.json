@@ -1,0 +1,58 @@
+{
+  "name": "react-use-call-onnext-render",
+  "version": "0.1",
+  "author": "Eliav Louski",
+  "description": "custom hook for schedule a callback function on later render, optionally forced!",
+  "keywords": [
+    "react",
+    "reactjs",
+    "hook",
+    "hooks",
+    "render",
+    "renders",
+    "callback",
+    "call",
+    "forceUpdate",
+    "forceRender",
+    "update",
+    "force",
+    "schedule"
+  ],
+  "main": "lib/index.js",
+  "module": "lib/index.js",
+  "types": "lib",
+  "homepage": "https://eliav2.github.io/react-xarrows/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Eliav2/react-xarrows"
+  },
+  "bugs": "https://github.com/Eliav2/react-xarrows/issues",
+  "dependencies": {
+    "typescript": "^4.2.4"
+  },
+  "peerDependencies": {
+    "react": ">=16.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "build": "tsc -p .",
+    "start": "yarn --cwd .\\examples\\ start"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "license": "MIT",
+  "files": [
+    "lib",
+    "package.json",
+    "README.md"
+  ],
+  "prettier": {
+    "printWidth": 120,
+    "jsxBracketSameLine": true,
+    "singleQuote": true
+  }
+}
