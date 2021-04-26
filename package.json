@@ -21,12 +21,12 @@
   "main": "lib/index.js",
   "module": "lib/index.js",
   "types": "lib",
-  "homepage": "https://eliav2.github.io/react-xarrows/",
+  "homepage": "https://eliav2.github.io/react-use-call-onnext-render/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Eliav2/react-xarrows"
+    "url": "https://github.com/Eliav2/react-use-call-onnext-render"
   },
-  "bugs": "https://github.com/Eliav2/react-xarrows/issues",
+  "bugs": "https://github.com/Eliav2/react-use-call-onnext-render/issues",
   "dependencies": {
     "react": ">=16.0.0"
   },
