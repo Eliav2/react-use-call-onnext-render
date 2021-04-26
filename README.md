@@ -1,5 +1,9 @@
 # react-use-call-onnext-render
 
+[![npm version](https://badge.fury.io/js/react-use-call-onnext-render.svg)](https://github.com/Eliav2/react-use-call-onnext-render)
+[![downloads](https://img.shields.io/npm/dw/react-use-call-onnext-render)](https://www.npmjs.com/package/react-use-call-onnext-render)
+[![issues](https://img.shields.io/github/issues/Eliav2/react-use-call-onnext-render)](https://github.com/Eliav2/react-use-call-onnext-render/issues)
+[![licence](https://img.shields.io/npm/l/react-use-call-onnext-render)](https://github.com/Eliav2/react-use-call-onnext-render/blob/master/LICENSE)
 `useCallOnNextRender` - an efficient and smart hook to schedule a callback for a later render.
 
 ## installation
