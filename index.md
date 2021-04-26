@@ -25,6 +25,23 @@ dependency array and not on the n'th render of the component
 
 ## Examples
 
+**call on next render**:
+
+the most simple use case it to fire a callback on next render:
+
+```js
+const YourComponent = () => {
+    const callOnNextRender = useCallOnNextRender()
+    useEffect(() => {
+        console.log("your component did a mount")
+        callOnNextRender(() => {
+            console.log("1 render after mount")
+        })
+    }, [])
+    return <>...</>
+}
+```
+
 **schedule a callback**:
 
 schedule a callback that will fire when the 5th render occurs:
@@ -66,9 +83,9 @@ this will force 5 rerender and only then will execute the callback function!
 **dependency array**:
 
 let's say we want to get dimensions of a removable DOM element,lets say `div` that is controlled by `showBox` state
-variable. for that we can use `getBoundingClientRect()`. however, we want to call this function only after the element 
-mounted into the dom, so will schedule this call one render after the variable responsible for showing this element 
-in the dom has changed,and this variable is `showBox`, so he will be dependency of `useCallOnNextRender`:
+variable. for that we can use `getBoundingClientRect()`. however, we want to call this function only after the element
+mounted into the dom, so will schedule this call one render after the variable responsible for showing this element in
+the dom has changed,and this variable is `showBox`, so he will be dependency of `useCallOnNextRender`:
 
 ```js
 const YourComponent = () => {
@@ -92,6 +109,7 @@ const YourComponent = () => {
     );
 };
 ```
+
 see the 3'th example in the code sandbox.
 
 Although these examples are simple, you can go smart with this hook.
