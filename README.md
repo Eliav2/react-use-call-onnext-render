@@ -21,13 +21,34 @@ available only on next render(s).
 this hook is very useful when accessing DOM elements,especially on mount.
 
 you can also pass dependency array and then the callback function will be called on the n'th change of the values in the
-dependency array and not on the n'th render of the component
+dependency array and not on the n'th render of the component.
+
+this hook smartly avoids infinite re-renders loop calls and behaves in intuitive way. for behavior example see
+HookBehavior example.
 
 ## Examples
 
 **schedule a callback**:
 
-schedule a callback that will fire when the 5th render occurs:
+schedule a callback for the next render:
+
+```js
+const YourComponent = () => {
+    const callOnNextRender = useCallOnNextRender()
+    useEffect(() => {
+        console.log("your component did a mount")
+        callOnNextRender(() => {
+            console.log("one render after mount")
+        })
+    }, [])
+    return <>...</>
+}
+```
+
+**schedule a callback for later call and don't force re-render**:
+
+this hook by default rerender the hooked component until the wanted render count has reached, and only then execute the
+callback. if this is not the desired behavior you can pass false to the third argument of `callOnNextRender`:
 
 ```js
 const YourComponent = () => {
@@ -36,32 +57,58 @@ const YourComponent = () => {
         console.log("your component did a mount")
         callOnNextRender(() => {
             console.log("5 renders after mount")
-        }, 5)
+        }, 5, false)
     }, [])
     return <>...</>
 }
 ```
 
-note that this will not force at least 5 renders, it will just fire the callback when the 5th render occurs.
+this will schedule a callback for the 5'th render after mount, and will execute the callback function when this render
+occurs.
 
-**schedule a callback and force re-renders**:
+**hook behavior**:
 
-if you wish to force re-renders until the 5th render, pass true to the third argument of `callOnNextRender`:
+let's look in the following example:
 
 ```js
 const YourComponent = () => {
-    const callOnNextRender = useCallOnNextRender()
+    const nextRender = useCallOnNextRender();
     useEffect(() => {
-        console.log("your component did a mount")
-        callOnNextRender(() => {
-            console.log("5 renders after mount")
-        }, 5, true)
-    }, [])
+        nextRender(() => log('after mount'));
+        log('finished mount');
+    }, []);
+    useEffect(() => {
+        nextRender(() => log('after render'));
+        log('finished render');
+        render.current += 1;
+    });
+    log('update call');
+    call.current += 1;
     return <>...</>
-}
+};
 ```
 
-this will force 5 rerender and only then will execute the callback function!
+what order of logs would you expect? well,lets define `call` as the number of times the functional component body was
+expected and `render` as the number of times the useEffect effect was triggered.  
+I would expect this order:
+
+[comment]: <> (//@formatter:off)
+
+```js 
+/**
+ * expected logs order:
+ *    update call       {call:0,render:0}
+ *    finished mount    {call:1,render:0}
+ *    finished render   {call:1,render:0}
+ *    update call       {call:1,render:1}
+ *    after mount       {call:2,render:1}
+ *    after render      {call:2,render:1}
+ */
+```
+[comment]: <> (//@formatter:on)
+
+And know what? this is the exact order that would fire using this hook! see HookBehavior example in the code sandbox
+demos.
 
 **dependency array**:
 
@@ -77,17 +124,24 @@ const YourComponent = () => {
     const callOnNextShowBoxChange = useCallOnNextRender([showBox])
     return (
         <>
-            <div style={canvasStyle} id="canvas">
-                <button style={boxStyle} onClick={() => {
-                    setShowBox(!showBox)
-                    // console.log(divRef.current.getBoundingClientRect()) - wrong value!
-                    callOnNextShowBoxChange(() => console.log(divRef.current.getBoundingClientRect())) //right value
-                }}>toggle show box
+            <React.Fragment>
+                <button
+                    style={boxStyle}
+                    onClick={() => {
+                        setShowBox(!showBox);
+                        // console.log(boxRef.current.getBoundingClientRect()); //- wrong value!
+                        callOnNextShowBoxChange(() => console.log(boxRef?.current.getBoundingClientRect())); //right value
+                    }}>
+                    toggle show box
                 </button>
-                <div style={{border: "black solid 1px"}} ref={divRef}>
-                    {showBox ? <div style={boxStyle}>box2</div> : null}
+                <div style={{border: 'black solid 1px'}}>
+                    {showBox ? (
+                        <div ref={boxRef} style={boxStyle}>
+                            box2
+                        </div>
+                    ) : null}
                 </div>
-            </div>
+            </React.Fragment>
         </>
     );
 };
@@ -131,6 +185,8 @@ note that `renderDelay` is relative to the current render and not an absolute va
 
 this repo also includes `useCallOnNextIteration` - like a managed queue for of calls. similar to `useCallOnNextRender`
 but is not bounded component lifecycle. for example can be run in a for loop.
+
+this hook is not well tested, use it on your own risk.
 
 ```jsx
 // example usage
