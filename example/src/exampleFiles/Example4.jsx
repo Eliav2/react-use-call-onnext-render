@@ -1,5 +1,5 @@
-import React, { useEffect, useReducer } from 'react';
-import { useCallOnNextRender } from 'react-use-call-onnext-render';
+import React, { useEffect, useReducer, useRef } from 'react';
+import useCallOnNextRender from 'react-use-call-onnext-render';
 import Draggable from 'react-draggable';
 
 const canvasStyle = {
@@ -22,25 +22,17 @@ const boxStyle = {
 };
 
 const DraggableBox = () => {
-  const callOnNextRender = useCallOnNextRender();
+  const [, rerender] = useReducer((x) => x + 1, 0);
+  const boxRef = useRef();
+  const nextRender = useCallOnNextRender();
   useEffect(() => {
-    console.log('component did mount');
-    callOnNextRender(
-      () => {
-        console.log('20 renders after mount');
-      },
-      20,
-      true
-    );
+    // rerender();
+    window.addEventListener('resize', () => nextRender(() => console.log('res2!'))); //will fire on next render
+    window.addEventListener('resize', () => console.log('res1!')); //will fire on current render
   }, []);
 
-  useEffect(() => {
-    console.log('component has rendered');
-  });
-
-  const [, rerender] = useReducer((x) => x + 1, 0);
   return (
-    <Draggable onStart={rerender} onDrag={rerender}>
+    <Draggable onStart={rerender} onDrag={rerender} ref={boxRef}>
       <div style={boxStyle}>box</div>
     </Draggable>
   );
@@ -52,7 +44,7 @@ const Example = () => {
       <h3>
         <u>Simple Example:</u>
       </h3>
-      <p>this box will rerender 20 times after mounting.</p>
+      <p>you can listen to event and schedule renders. resize the window and see console</p>
       <div style={canvasStyle} id="canvas">
         <DraggableBox />
       </div>

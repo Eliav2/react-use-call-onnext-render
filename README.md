@@ -66,9 +66,9 @@ this will force 5 rerender and only then will execute the callback function!
 **dependency array**:
 
 let's say we want to get dimensions of a removable DOM element,lets say `div` that is controlled by `showBox` state
-variable. for that we can use `getBoundingClientRect()`. however, we want to call this function only after the element 
-mounted into the dom, so will schedule this call one render after the variable responsible for showing this element 
-in the dom has changed,and this variable is `showBox`, so he will be dependency of `useCallOnNextRender`:
+variable. for that we can use `getBoundingClientRect()`. however, we want to call this function only after the element
+mounted into the dom, so will schedule this call one render after the variable responsible for showing this element in
+the dom has changed,and this variable is `showBox`, so he will be dependency of `useCallOnNextRender`:
 
 ```js
 const YourComponent = () => {
@@ -92,6 +92,7 @@ const YourComponent = () => {
     );
 };
 ```
+
 see the 3'th example in the code sandbox.
 
 Although these examples are simple, you can go smart with this hook.
@@ -117,10 +118,14 @@ note that `renderDelay` is relative to the current render and not an absolute va
 
 ## Notes
 
-- calling `callOnNextRender` with `renderDelay` of 0 is not supported. this is just equivalent running any function
-  immediately in the scope you called `callOnNextRender`.
-- default value for `renderDelay` is 1 which means the callback function will be called in the next render.
-- using this hook will render your component twice in mount(if not already rendered twice)
+- calling `callOnNextRender` with `renderDelay` of 0(or less) is not supported. this is just equivalent running any
+  function immediately in the scope you called `callOnNextRender`.
+- default value for `renderDelay` is 1 which means that by default the callback function will be called in the next
+  render.
+- calling `callOnNextRender(someCallback)` will force the next render even if this not necessary in terms of react, the
+  later renders are optionally forced based on `forceRender` argument.
+- using this hook will render your component twice after mount(instead of once),in case your component normally render
+  twice no more renders will be triggered.
 
 ## useCallOnNextIteration
 
