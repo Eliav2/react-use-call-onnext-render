@@ -162,7 +162,7 @@ export type useCallOnNextRenderType = (deps?: any) => (func: any, renderDelay?: 
 
 // usage example(inside a component!):
 const callOnNextRender = useCallOnNextRender(deps ? : Array);
-callOnNextRender(callback:Function, renderDelay ? : number = 1, forceRender ? : boolean = false);
+callOnNextRender(callback:Function, renderDelay ? : number = 1, forceRender ? : boolean = true);
 ```
 [comment]: <> (//@formatter:on)
 
