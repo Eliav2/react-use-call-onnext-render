@@ -88,9 +88,7 @@ const YourComponent = () => {
 };
 ```
 
-what order of logs would you expect? well,lets define `call` as the number of times the functional component body was
-expected and `render` as the number of times the useEffect effect was triggered.  
-I would expect this order:
+what order of logs would you expect? well, I would expect this order:
 
 [comment]: <> (//@formatter:off)
 
