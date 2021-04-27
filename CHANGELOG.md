@@ -1,5 +1,5 @@
 ## v0.3.0
-- default behavior is now force renders. 
+- default behavior is now force renders.  
 
 ## v0.2.0:
 
