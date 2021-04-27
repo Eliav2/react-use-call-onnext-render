@@ -11,7 +11,7 @@
     "react-draggable": "^4.4.3",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
-    "react-use-call-onnext-render": "^0.1.0",
+    "react-use-call-onnext-render": "latest",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
