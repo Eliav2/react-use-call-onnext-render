@@ -1,11 +1,12 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import useCallOnNextRender from 'react-use-call-onnext-render';
 import { boxStyle } from '../App';
 
 const Example = () => {
   const [showBox, setShowBox] = useState(false);
   const boxRef = useRef();
-  const callOnNextShowBoxChange = useCallOnNextRender([showBox]);
+  const callOnNextShowBoxChange = useCallOnNextRender();
+
   return (
     <React.Fragment>
       <button

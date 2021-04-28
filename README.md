@@ -14,17 +14,16 @@ or `yarn add react-use-call-onnext-render`.
 
 ## Usage
 
-Let's say you want to access a lifecycle variable next render's value, so this is the hook for you!  
+if want to access a lifecycle variable next render's value, this is the hook for you!  
 An example for such use case can be a callback function to update state based on properties of DOM element that will be
 available only on next render(s).
 
-this hook is very useful when accessing DOM elements,especially on mount.
-
-you can also pass dependency array and then the callback function will be called on the n'th change of the values in the
-dependency array and not on the n'th render of the component.
+combined with useEffect with dependency list, you could schedule a callback after certain changes.
 
 this hook smartly avoids infinite re-renders loop calls and behaves in intuitive way. for behavior example see
 HookBehavior example.
+
+this hook is very useful when accessing DOM elements.
 
 ## Examples
 
@@ -101,6 +100,7 @@ what order of logs would you expect? well, I would expect this order:
  *    update call       {call:1,render:1}
  *    after mount       {call:2,render:1}
  *    after render      {call:2,render:1}
+ *    finished render   {call:2,render:1}
  */
 ```
 [comment]: <> (//@formatter:on)
@@ -108,18 +108,18 @@ what order of logs would you expect? well, I would expect this order:
 And know what? this is the exact order that would fire using this hook! see HookBehavior example in the code sandbox
 demos.
 
-**dependency array**:
+**dom example**:
 
-let's say we want to get dimensions of a removable DOM element,lets say `div` that is controlled by `showBox` state
+let's say we want to get dimensions of a removable DOM element that is controlled by `showBox` state
 variable. for that we can use `getBoundingClientRect()`. however, we want to call this function only after the element
-mounted into the dom, so will schedule this call one render after the variable responsible for showing this element in
-the dom has changed,and this variable is `showBox`, so he will be dependency of `useCallOnNextRender`:
+mounted into the dom, so will schedule this call one render after changing `showBox`:
 
 ```js
 const YourComponent = () => {
     const [showBox, setShowBox] = useState(false)
     const divRef = useRef()
-    const callOnNextShowBoxChange = useCallOnNextRender([showBox])
+    const useCallOnNextRender = useCallOnNextRender()
+
     return (
         <>
             <React.Fragment>
@@ -127,8 +127,7 @@ const YourComponent = () => {
                     style={boxStyle}
                     onClick={() => {
                         setShowBox(!showBox);
-                        // console.log(boxRef.current.getBoundingClientRect()); //- wrong value!
-                        callOnNextShowBoxChange(() => console.log(boxRef?.current.getBoundingClientRect())); //right value
+                        callOnNextShowBoxChange(() => console.log(boxRef?.current?.getBoundingClientRect())); //right value
                     }}>
                     toggle show box
                 </button>
@@ -158,11 +157,10 @@ code sandbox: <https://codesandbox.io/s/github/Eliav2/react-use-call-onnext-rend
 [comment]: <> (//@formatter:off)
 ```typescript
 // type
-export type useCallOnNextRenderType = (deps?: any) => (func: any, renderDelay?: number, forceRender?: boolean) => void;
+export type useCallOnNextRenderType = (effectHook?: useEffect|useLayOutEffect) => (func: any, renderDelay?: number, forceRender?: boolean) => void;
 
-// usage example(inside a component!):
-const callOnNextRender = useCallOnNextRender(deps ? : Array);
-callOnNextRender(callback:Function, renderDelay ? : number = 1, forceRender ? : boolean = true);
+const callOnNextRender = useCallOnNextRender();
+callOnNextRender:(callback:Function, renderDelay ? : number = 1, forceRender ? : boolean = true)=>void;
 ```
 [comment]: <> (//@formatter:on)
 
