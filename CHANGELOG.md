@@ -1,3 +1,6 @@
+## v0.4.0
+- added option to use other hook then useEffect(like useLayoutEffect) as the effect hook. 
+
 ## v0.3.0
 - default behavior is now force renders.  
 

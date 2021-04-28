@@ -3,7 +3,7 @@ import { useEffect, useReducer, useRef } from 'react';
 type renderQueue = { [renderCount: number]: { callback: Function; forceRender: boolean }[] };
 
 // A custom hook that can be used to schedule a callback function on later render, optionally forced!
-export const useCallOnNextRender = (deps?) => {
+export const useCallOnNextRender = (deps?, effectHook = useEffect as (...args: any) => void) => {
   //for force update logic
   const [, forceUpdate] = useReducer((x) => x + 1, 0);
   //for next renders logic
@@ -35,7 +35,7 @@ export const useCallOnNextRender = (deps?) => {
     }
   });
 
-  useEffect(() => {
+  effectHook(() => {
     //update render count
     renderCount.current += 1;
 
@@ -60,7 +60,7 @@ export const useCallOnNextRender = (deps?) => {
     }
   }, deps);
 
-  useEffect(() => {
+  effectHook(() => {
     // this is required for the case you call this hook on mount
     // and your component renders only once after mount,
     // this is necessary to catch forced scheduled renders on mount.
