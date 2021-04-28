@@ -110,9 +110,9 @@ demos.
 
 **dom example**:
 
-let's say we want to get dimensions of a removable DOM element that is controlled by `showBox` state
-variable. for that we can use `getBoundingClientRect()`. however, we want to call this function only after the element
-mounted into the dom, so will schedule this call one render after changing `showBox`:
+let's say we want to get dimensions of a removable DOM element that is controlled by `showBox` state variable. for that
+we can use `getBoundingClientRect()`. however, we want to call this function only after the element mounted into the
+dom, so will schedule this call one render after changing `showBox`:
 
 ```js
 const YourComponent = () => {
@@ -127,6 +127,7 @@ const YourComponent = () => {
                     style={boxStyle}
                     onClick={() => {
                         setShowBox(!showBox);
+                        // console.log(boxRef.current.getBoundingClientRect()); //- wrong value!
                         callOnNextShowBoxChange(() => console.log(boxRef?.current?.getBoundingClientRect())); //right value
                     }}>
                     toggle show box
