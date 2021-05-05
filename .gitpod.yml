@@ -2,8 +2,8 @@ image: gitpod/workspace-full
 
 tasks:
   - name: examples
-    init: yarn install && yarn link && cd example/ && yarn install && yarn link react-use-call-onnext-render && npm link ../node_modules/react
-    command: yarn start
+    init: npm install && npm link && cd example/ && npm install && npm link react-use-call-onnext-render && npm link ../node_modules/react
+    command: npm start
   - name: ts watch
     command: ./node_modules/.bin/tsc -w
 
