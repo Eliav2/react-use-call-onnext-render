@@ -1,3 +1,6 @@
+## v0.6.0
+- scheduler func API braking changes.
+
 ## v0.5.0
 - now dependency array is not supported. in case you to fire callback one render after a certain change call the 
   scheduler func in a useEffect with a dependency of the variable holding the inspected change.

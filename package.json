@@ -28,6 +28,7 @@
   },
   "bugs": "https://github.com/Eliav2/react-use-call-onnext-render/issues",
   "dependencies": {
+    "lodash.partition": "^4.6.0",
     "react": ">=16.8.0"
   },
   "devDependencies": {

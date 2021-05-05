@@ -25,6 +25,10 @@ HookBehavior example.
 
 this hook is very useful when accessing DOM elements.
 
+If you not sure about the render cycle of a React component, I would strongly recommend reading first the tutorial 
+[how-react-hooks-work](https://eliav2.github.io/how-react-hooks-work/).   
+specifically the [render cycle section](https://eliav2.github.io/how-react-hooks-work/#render-cycle). 
+
 ## Examples
 
 **schedule a callback**:
@@ -154,6 +158,23 @@ Although these examples are simple, you can go smart with this hook.
 code sandbox: <https://codesandbox.io/s/github/Eliav2/react-use-call-onnext-render/tree/main/example>
 
 ## API
+
+### useCallOnNextRender
+
+_props_:
+
+- effectHook - on what effect to count the render cycle as finished.  
+  For example if your component uses only useLayoutEffect 
+  don't use useEffect because it will trigger another unnecessary effect which can impact performance.<br/>
+  _type: useEffect|useLayoutEffect_  
+  _default: useEffect_  
+  _example: `useCallOnNextRender(useLayoutEffect)`_
+
+_returns: scheduler_
+
+### scheduler
+
+
 
 [comment]: <> (//@formatter:off)
 ```typescript
