@@ -1,0 +1,9 @@
+image: gitpod/workspace-full
+
+tasks:
+  - name: examples
+    init: yarn run init-workspace
+    command: yarn start
+  - name: ts watch
+    command: .\node_modules\.bin\tsc -w
+

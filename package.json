@@ -37,6 +37,7 @@
   },
   "scripts": {
     "build": "tsc -p .",
+    "init-workspace": "yarn install && yarn link && cd examples/ && yarn install && yarn link react-use-call-onnext-render && npm link ../node_modules/react",
     "start": "yarn --cwd .\\example\\ start"
   },
   "browserslist": [
