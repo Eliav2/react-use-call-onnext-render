@@ -7,9 +7,9 @@
 
 an efficient and smart hook to schedule a callback for a later render.
 
-## installation
+## Installation
 
-with npm `npm react-use-call-onnext-render`.  
+with npm `npm install react-use-call-onnext-render`.  
 or `yarn add react-use-call-onnext-render`.
 
 ## Usage
